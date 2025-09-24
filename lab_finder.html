@@ -201,6 +201,15 @@
             .equipment-details { grid-template-columns: 1fr; }
             .header h1 { font-size: 2em; }
             .search-section { padding: 20px; }
+            .floor-plan-image { 
+                max-width: 100%; 
+                overflow-x: auto;
+            }
+            .floor-plan-image > div > div {
+                max-width: 100% !important;
+                height: auto !important;
+                min-height: 250px;
+            }
         }
     </style>
 </head>
@@ -242,108 +251,769 @@
 
 <script>
 const equipmentData = [
-    {"Cupboard":1,"Room":"Ellipsen","Contents":"measuring cylinders","Indhold":"målecylindre","Subject matter":"chemistry"},
-    {"Cupboard":1,"Room":"Ellipsen","Contents":"beakers","Indhold":"bægerglas","Subject matter":"chemistry"},
-    {"Cupboard":2,"Room":"Ellipsen","Contents":"test tubes","Indhold":"reagensglas","Subject matter":"chemistry"},
-    {"Cupboard":2,"Room":"Ellipsen","Contents":"test tube holder","Indhold":"reagensglas stativ","Subject matter":"chemistry"},
-    {"Cupboard":3,"Room":"Ellipsen","Contents":"evapourating dish","Indhold":"indampningsskål","Subject matter":"chemistry"},
-    {"Cupboard":3,"Room":"Ellipsen","Contents":"wooden holders","Indhold":"træklemmer","Subject matter":"chemistry"},
-    {"Cupboard":3,"Room":"Ellipsen","Contents":"pipette","Indhold":"pipette","Subject matter":"chemistry"},
-    {"Cupboard":4,"Room":"Ellipsen","Contents":"crucibel tongs","Indhold":"crucible tongs","Subject matter":"chemistry"},
-    {"Cupboard":4,"Room":"Ellipsen","Contents":"steel spoons","Indhold":"stålskeer","Subject matter":"chemistry"},
-    {"Cupboard":4,"Room":"Ellipsen","Contents":"bunsen burners","Indhold":"bunsen brændere","Subject matter":"chemistry"},
-    {"Cupboard":5,"Room":"Ellipsen","Contents":"gloves","Indhold":"handsker","Subject matter":"safety"},
-    {"Cupboard":5,"Room":"Ellipsen","Contents":"tripods","Indhold":"stativer","Subject matter":"chemistry"},
-    {"Cupboard":6,"Room":"Ellipsen","Contents":"safety goggles","Indhold":"sikkerhedsbriller","Subject matter":"safety"},
-    {"Cupboard":7,"Room":"Ellipsen","Contents":"thermometers","Indhold":"termometre","Subject matter":"measurement"},
-    {"Cupboard":7,"Room":"Ellipsen","Contents":"IR Thermometers","Indhold":"Infrarød termometre","Subject matter":"measurement"},
-    {"Cupboard":8,"Room":"Ellipsen","Contents":"scales","Indhold":"vægte","Subject matter":"measurement"},
-    {"Cupboard":9,"Room":"Ellipsen","Contents":"tubes","Indhold":"slanger","Subject matter":"chemistry"},
-    {"Cupboard":10,"Room":"Ellipsen","Contents":"electrolysis beakers","Indhold":"elektrolsebægre","Subject matter":"chemistry"},
-    {"Cupboard":10,"Room":"Ellipsen","Contents":"magnetic stiring machines","Indhold":"magnetiske røremaskiner","Subject matter":"chemistry"},
-    {"Cupboard":11,"Room":"Ellipsen","Contents":"Carbon rods","Indhold":"kulstænger","Subject matter":"chemistry"},
-    {"Cupboard":11,"Room":"Ellipsen","Contents":"crocodile clips","Indhold":"krokodille clips","Subject matter":"electricity"},
-    {"Cupboard":11,"Room":"Ellipsen","Contents":"pestle and morter","Indhold":"morter","Subject matter":"chemistry"},
-    {"Cupboard":12,"Room":"Ellipsen","Contents":"electricians pipes","Indhold":"elektriker rør","Subject matter":"-"},
-    {"Cupboard":12,"Room":"Ellipsen","Contents":"floodlights","Indhold":"projectørlys","Subject matter":"Light"},
-    {"Cupboard":15,"Room":"Ellipsen","Contents":"stopwatches","Indhold":"stopur","Subject matter":"measurement"},
-    {"Cupboard":15,"Room":"Ellipsen","Contents":"string","Indhold":"snor","Subject matter":"-"},
-    {"Cupboard":16,"Room":"Ellipsen","Contents":"electrical appliances","Indhold":"elektriske apparater","Subject matter":"electricity"},
-    {"Cupboard":16,"Room":"Ellipsen","Contents":"micrometer","Indhold":"micrometer","Subject matter":"measurement"},
-    {"Cupboard":16,"Room":"Ellipsen","Contents":"callipers","Indhold":"kalliper","Subject matter":"measurement"},
-    {"Cupboard":16,"Room":"Ellipsen","Contents":"tape measures","Indhold":"målebånd","Subject matter":"measurement"},
-    {"Cupboard":17,"Room":"Ellipsen","Contents":"glass plates","Indhold":"glasplader","Subject matter":"biology"},
-    {"Cupboard":17,"Room":"Ellipsen","Contents":"microscopes","Indhold":"mikroskoper","Subject matter":"biology"},
-    {"Cupboard":18,"Room":"Ellipsen","Contents":"microscope slides","Indhold":"objektglas","Subject matter":"biology"},
-    {"Cupboard":19,"Room":"Ellipsen","Contents":"Urine bags","Indhold":"Urinposer","Subject matter":"biology"},
-    {"Cupboard":20,"Room":"Ellipsen","Contents":"splints","Indhold":"træpinde","Subject matter":"chemistry"},
-    {"Cupboard":20,"Room":"Ellipsen","Contents":"filterpaper","Indhold":"filterpapir","Subject matter":"chemistry"},
-    {"Cupboard":20,"Room":"Ellipsen","Contents":"microscopes","Indhold":"mikroskoper","Subject matter":"biology"},
-    {"Cupboard":21,"Room":"Ellipsen","Contents":"lighters and tape","Indhold":"lightere og tape","Subject matter":"-"},
-    {"Cupboard":22,"Room":"Ellipsen","Contents":"glass tubes","Indhold":"glasrør","Subject matter":"chemistry"},
-    {"Cupboard":22,"Room":"Ellipsen","Contents":"conical flasks","Indhold":"koniske kolber","Subject matter":"chemistry"},
-    {"Cupboard":23,"Room":"Ellipsen","Contents":"bungs","Indhold":"propper","Subject matter":"chemistry"},
-    {"Cupboard":23,"Room":"Ellipsen","Contents":"funnels","Indhold":"tragte","Subject matter":"chemistry"},
-    {"Cupboard":24,"Room":"Ellipsen","Contents":"bungs","Indhold":"propper","Subject matter":"chemistry"},
-    {"Cupboard":24,"Room":"Ellipsen","Contents":"conical flasks","Indhold":"kolber","Subject matter":"chemistry"},
-    {"Cupboard":25,"Room":"Ellipsen","Contents":"Powerpacks","Indhold":"Stømforsyninger","Subject matter":"electricity"},
-    {"Cupboard":27,"Room":"Ellipsen","Contents":"old powerpacks","Indhold":"gl. Stømforsyninger","Subject matter":"electricity"},
-    {"Cupboard":31,"Room":"Ellipsen","Contents":"clamps","Indhold":"stativklemmer","Subject matter":"-"},
-    {"Cupboard":31,"Room":"Ellipsen","Contents":"bosses","Indhold":"","Subject matter":"-"},
-    {"Cupboard":32,"Room":"Ellipsen","Contents":"retort stands","Indhold":"spændestativer","Subject matter":"-"},
-    {"Cupboard":40,"Room":"Science1","Contents":"torches","Indhold":"lygter","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"lasers","Indhold":"lasere","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"UV lights","Indhold":"UV Lys","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"UV pearls","Indhold":"UV perler","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"Sprectra","Indhold":"Spektra","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"Picture projection","Indhold":"Billed projektion","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"Fiberoptics","Indhold":"Fibreoptik","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"glasses & sunglasses","Indhold":"briller og solbriller","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"colour mixing","Indhold":"farve blænding","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"reflectors","Indhold":"refleks","Subject matter":"Light"},
-    {"Cupboard":40,"Room":"Science1","Contents":"tunung forks","Indhold":"stemmegafler","Subject matter":"sound"},
-    {"Cupboard":40,"Room":"Science1","Contents":"sound generators","Indhold":"lyd genoratorer","Subject matter":"sound"},
-    {"Cupboard":40,"Room":"Science1","Contents":"sound measurement","Indhold":"lyd målere","Subject matter":"sound"},
-    {"Cupboard":40,"Room":"Science1","Contents":"Doppler Effect","Indhold":"Doppler effekt","Subject matter":"sound"},
-    {"Cupboard":40,"Room":"Science1","Contents":"standing waves","Indhold":"stående bølger","Subject matter":"sound"},
-    {"Cupboard":40,"Room":"Science1","Contents":"masses (weights)","Indhold":"Lodder","Subject matter":"-"},
-    {"Cupboard":40,"Room":"Science1","Contents":"Newton meters","Indhold":"kraftmålere","Subject matter":"measurement"},
-    {"Cupboard":40,"Room":"Science1","Contents":"springs","Indhold":"springs","Subject matter":"-"},
-    {"Cupboard":41,"Room":"Science1","Contents":"Speed of sound kit","Indhold":"Lydhastigheds måler","Subject matter":"sound"},
-    {"Cupboard":42,"Room":"Science1","Contents":"solfangerkit","Indhold":"solfangerkit","Subject matter":"energy"},
-    {"Cupboard":42,"Room":"Science1","Contents":"sun screen","Indhold":"solkrem","Subject matter":"Light"},
-    {"Cupboard":42,"Room":"Science1","Contents":"højtaler","Indhold":"speaker","Subject matter":"sound"},
-    {"Cupboard":42,"Room":"Science1","Contents":"ultralyd","Indhold":"ultrasound","Subject matter":"sound"},
-    {"Cupboard":43,"Room":"Science2","Contents":"electronic kits","Indhold":"","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"motors","Indhold":"motorer","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"ammeters","Indhold":"ammeter","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"crokodile clips (small)","Indhold":"krokodille klips (små)","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"lamps","Indhold":"elpærer","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"voltmeters","Indhold":"voltmeter","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"transformers","Indhold":"transformere","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"Galvometers","Indhold":"galvometre","Subject matter":"electricity"},
-    {"Cupboard":43,"Room":"Science2","Contents":"Magnets","Indhold":"magneter","Subject matter":"magnatism"},
-    {"Cupboard":44,"Room":"Science2","Contents":"high voltage power supply","Indhold":"højspænding","Subject matter":"electricity"},
-    {"Cupboard":44,"Room":"Science2","Contents":"molecular construction sets","Indhold":"molekule konstruktionssæt","Subject matter":"-"},
-    {"Cupboard":44,"Room":"Science2","Contents":"Gastest kit","Indhold":"Gastest kit","Subject matter":"chemistry"},
-    {"Cupboard":44,"Room":"Science2","Contents":"ticker timers","Indhold":"ticker timers","Subject matter":"physics"},
-    {"Cupboard":44,"Room":"Science2","Contents":"trolleys","Indhold":"vogne","Subject matter":"physics"},
-    {"Cupboard":44,"Room":"Science2","Contents":"pulleys","Indhold":"taljer","Subject matter":"physics"},
-    {"Cupboard":44,"Room":"Science2","Contents":"light gate","Indhold":"light gate","Subject matter":"physics"},
-    {"Cupboard":44,"Room":"Science2","Contents":"bimetallic strips","Indhold":"bimetallic strips","Subject matter":"physics"},
-    {"Cupboard":44,"Room":"Science2","Contents":"metals","Indhold":"metaller","Subject matter":"physics"},
-    {"Cupboard":44,"Room":"Science2","Contents":"cables","Indhold":"ledninger","Subject matter":"electricity"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco accelerometer","Indhold":"pasco accelerometre","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco co2 detector","Indhold":"pasco co2 detektorer","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco lightsensors","Indhold":"pasco lyssensorer","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco PH sensors","Indhold":"pasco PH sensorer","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco magnetic field sensors","Indhold":"pasco magnetiskfelt sensorer","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco heartbeat sensor","Indhold":"pasco herteslagssensor","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco bluetooth connectors","Indhold":"pasco bluetooth connector","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco digital adapter","Indhold":"pasco digital adapter","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco thermometers","Indhold":"pasco termometre","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco ammeters","Indhold":"pasco ammetre","Subject matter":"digital equipment"},
-    {"Cupboard":45,"Room":"Science2","Contents":"pasco voltmeters","Indhold":"pasco voltmetre","Subject matter":"digital equipment"}
+    {
+        "Cupboard": 1,
+        "Room": "Ellipsen",
+        "Contents": "measuring cylinders",
+        "Indhold": "målecylindre",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 1,
+        "Room": "Ellipsen",
+        "Contents": "beakers",
+        "Indhold": "bægerglas",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 2,
+        "Room": "Ellipsen",
+        "Contents": "test tubes",
+        "Indhold": "reagensglas",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 2,
+        "Room": "Ellipsen",
+        "Contents": "test tube holder",
+        "Indhold": "reagensglas stativ",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 3,
+        "Room": "Ellipsen",
+        "Contents": "evapourating dish",
+        "Indhold": "indampningsskål",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 3,
+        "Room": "Ellipsen",
+        "Contents": "wooden holders",
+        "Indhold": "træklemmer",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 3,
+        "Room": "Ellipsen",
+        "Contents": "pipette",
+        "Indhold": "pipette",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 4,
+        "Room": "Ellipsen",
+        "Contents": "crucibel tongs",
+        "Indhold": "crucible tongs",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 4,
+        "Room": "Ellipsen",
+        "Contents": "steel spoons",
+        "Indhold": "stålskeer",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 4,
+        "Room": "Ellipsen",
+        "Contents": "bunsen burners",
+        "Indhold": "bunsen brændere",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 5,
+        "Room": "Ellipsen",
+        "Contents": "gloves",
+        "Indhold": "handsker",
+        "Subject matter": "safety"
+    },
+    {
+        "Cupboard": 5,
+        "Room": "Ellipsen",
+        "Contents": "tripods",
+        "Indhold": "stativer",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 6,
+        "Room": "Ellipsen",
+        "Contents": "safety goggles",
+        "Indhold": "sikkerhedsbriller",
+        "Subject matter": "safety"
+    },
+    {
+        "Cupboard": 7,
+        "Room": "Ellipsen",
+        "Contents": "thermometers",
+        "Indhold": "termometre",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 7,
+        "Room": "Ellipsen",
+        "Contents": "IR Thermometers",
+        "Indhold": "Infrarød termometre",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 8,
+        "Room": "Ellipsen",
+        "Contents": "scales",
+        "Indhold": "vægte",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 9,
+        "Room": "Ellipsen",
+        "Contents": "tubes",
+        "Indhold": "slanger",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 10,
+        "Room": "Ellipsen",
+        "Contents": "electrolysis beakers",
+        "Indhold": "elektrolsebægre",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 10,
+        "Room": "Ellipsen",
+        "Contents": "magnetic stiring machines",
+        "Indhold": "magnetiske røremaskiner",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 11,
+        "Room": "Ellipsen",
+        "Contents": "Carbon rods",
+        "Indhold": "kulstænger",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 11,
+        "Room": "Ellipsen",
+        "Contents": "crocodile clips",
+        "Indhold": "krokodille clips",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 11,
+        "Room": "Ellipsen",
+        "Contents": "pestle and morter",
+        "Indhold": "morter",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 12,
+        "Room": "Ellipsen",
+        "Contents": "electricians pipes",
+        "Indhold": "elektriker rør",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 12,
+        "Room": "Ellipsen",
+        "Contents": "floodlights",
+        "Indhold": "projectørlys",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 15,
+        "Room": "Ellipsen",
+        "Contents": "stopwatches",
+        "Indhold": "stopur",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 15,
+        "Room": "Ellipsen",
+        "Contents": "string",
+        "Indhold": "snor",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 16,
+        "Room": "Ellipsen",
+        "Contents": "electrical appliances",
+        "Indhold": "elektriske apparater",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 16,
+        "Room": "Ellipsen",
+        "Contents": "micrometer",
+        "Indhold": "micrometer",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 16,
+        "Room": "Ellipsen",
+        "Contents": "callipers",
+        "Indhold": "kalliper",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 16,
+        "Room": "Ellipsen",
+        "Contents": "tape measures",
+        "Indhold": "målebånd",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 17,
+        "Room": "Ellipsen",
+        "Contents": "glass plates",
+        "Indhold": "glasplader",
+        "Subject matter": "biology"
+    },
+    {
+        "Cupboard": 17,
+        "Room": "Ellipsen",
+        "Contents": "microscopes",
+        "Indhold": "mikroskoper",
+        "Subject matter": "biology"
+    },
+    {
+        "Cupboard": 18,
+        "Room": "Ellipsen",
+        "Contents": "microscope slides",
+        "Indhold": "objektglas",
+        "Subject matter": "biology"
+    },
+    {
+        "Cupboard": 19,
+        "Room": "Ellipsen",
+        "Contents": "Urine bags",
+        "Indhold": "Urinposer",
+        "Subject matter": "biology"
+    },
+    {
+        "Cupboard": 20,
+        "Room": "Ellipsen",
+        "Contents": "splints",
+        "Indhold": "træpinde",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 20,
+        "Room": "Ellipsen",
+        "Contents": "filterpaper",
+        "Indhold": "filterpapir",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 20,
+        "Room": "Ellipsen",
+        "Contents": "microscopes",
+        "Indhold": "mikroskoper",
+        "Subject matter": "biology"
+    },
+    {
+        "Cupboard": 21,
+        "Room": "Ellipsen",
+        "Contents": "lighters and tape",
+        "Indhold": "lightere og tape",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 22,
+        "Room": "Ellipsen",
+        "Contents": "glass tubes",
+        "Indhold": "glasrør",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 22,
+        "Room": "Ellipsen",
+        "Contents": "conical flasks",
+        "Indhold": "koniske kolber",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 23,
+        "Room": "Ellipsen",
+        "Contents": "bungs",
+        "Indhold": "propper",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 23,
+        "Room": "Ellipsen",
+        "Contents": "funnels",
+        "Indhold": "tragte",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 24,
+        "Room": "Ellipsen",
+        "Contents": "bungs",
+        "Indhold": "propper",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 24,
+        "Room": "Ellipsen",
+        "Contents": "conical flasks",
+        "Indhold": "kolber",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 25,
+        "Room": "Ellipsen",
+        "Contents": "Powerpacks",
+        "Indhold": "Stømforsyninger",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 27,
+        "Room": "Ellipsen",
+        "Contents": "old powerpacks",
+        "Indhold": "gl. Stømforsyninger",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 31,
+        "Room": "Ellipsen",
+        "Contents": "clamps",
+        "Indhold": "stativklemmer",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 31,
+        "Room": "Ellipsen",
+        "Contents": "bosses",
+        "Indhold": "",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 32,
+        "Room": "Ellipsen",
+        "Contents": "retort stands",
+        "Indhold": "spændestativer",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "torches",
+        "Indhold": "lygter",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "lasers",
+        "Indhold": "lasere",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "UV lights",
+        "Indhold": "UV Lys",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "UV pearls",
+        "Indhold": "UV perler",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "Sprectra",
+        "Indhold": "Spektra",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "Picture projection",
+        "Indhold": "Billed projektion",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "Fiberoptics",
+        "Indhold": "Fibreoptik",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "glasses & sunglasses",
+        "Indhold": "briller og solbriller",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "colour mixing",
+        "Indhold": "farve blænding",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "reflectors",
+        "Indhold": "refleks",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "tunung forks",
+        "Indhold": "stemmegafler",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "sound generators",
+        "Indhold": "lyd genoratorer",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "sound measurement",
+        "Indhold": "lyd målere",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "Doppler Effect",
+        "Indhold": "Doppler effekt",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "standing waves",
+        "Indhold": "stående bølger",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "masses (weights)",
+        "Indhold": "Lodder",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "Newton meters",
+        "Indhold": "kraftmålere",
+        "Subject matter": "measurement"
+    },
+    {
+        "Cupboard": 40,
+        "Room": "Science1",
+        "Contents": "springs",
+        "Indhold": "springs",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 41,
+        "Room": "Science1",
+        "Contents": "Speed of sound kit",
+        "Indhold": "Lydhastigheds måler",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 42,
+        "Room": "Science1",
+        "Contents": "solfangerkit",
+        "Indhold": "solfangerkit",
+        "Subject matter": "energy"
+    },
+    {
+        "Cupboard": 42,
+        "Room": "Science1",
+        "Contents": "sun screen",
+        "Indhold": "solkrem",
+        "Subject matter": "Light"
+    },
+    {
+        "Cupboard": 42,
+        "Room": "Science1",
+        "Contents": "højtaler",
+        "Indhold": "speaker",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 42,
+        "Room": "Science1",
+        "Contents": "ultralyd",
+        "Indhold": "ultrasound",
+        "Subject matter": "sound"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "electronic kits",
+        "Indhold": "",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "motors",
+        "Indhold": "motorer",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "ammeters",
+        "Indhold": "ammeter",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "crokodile clips (small)",
+        "Indhold": "krokodille klips (små)",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "lamps",
+        "Indhold": "elpærer",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "voltmeters",
+        "Indhold": "voltmeter",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "transformers",
+        "Indhold": "transformere",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "Galvometers",
+        "Indhold": "galvometre",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 43,
+        "Room": "Science2",
+        "Contents": "Magnets",
+        "Indhold": "magneter",
+        "Subject matter": "magnatism"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "high voltage power supply",
+        "Indhold": "højspænding",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "molecular construction sets",
+        "Indhold": "molekule konstruktionssæt",
+        "Subject matter": "-"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "Gastest kit",
+        "Indhold": "Gastest kit",
+        "Subject matter": "chemistry"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "ticker timers",
+        "Indhold": "ticker timers",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "trolleys",
+        "Indhold": "vogne",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "pulleys",
+        "Indhold": "taljer",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "light gate",
+        "Indhold": "light gate",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "bimetallic strips",
+        "Indhold": "bimetallic strips",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "metals",
+        "Indhold": "metaller",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 44,
+        "Room": "Science2",
+        "Contents": "cables",
+        "Indhold": "ledninger",
+        "Subject matter": "electricity"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco accelerometer",
+        "Indhold": "pasco accelerometre",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco co2 detector",
+        "Indhold": "pasco co2 detektorer",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco lightsensors",
+        "Indhold": "pasco lyssensorer",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco PH sensors",
+        "Indhold": "pasco PH sensorer",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco magnetic field sensors",
+        "Indhold": "pasco magnetiskfelt sensorer",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco heartbeat sensor",
+        "Indhold": "pasco herteslagssensor",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco bluetooth connectors",
+        "Indhold": "pasco bluetooth connector",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco digital adapter",
+        "Indhold": "pasco digital adapter",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco thermometers",
+        "Indhold": "pasco termometre",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco ammeters",
+        "Indhold": "pasco ammetre",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "pasco voltmeters",
+        "Indhold": "pasco voltmetre",
+        "Subject matter": "digital equipment"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Geiger Counter",
+        "Indhold": "Geiger Muller Detektorer",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Irradiated seed",
+        "Indhold": "bestrålede frø",
+        "Subject matter": "biology"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Radioactive sources",
+        "Indhold": "Radioaktivkilder",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Radiation Detectors",
+        "Indhold": "Stråling Detektorer",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Radiation Containmet",
+        "Indhold": "Strålingafskærmning",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Half-life experiment",
+        "Indhold": "Halveringstid forsøg",
+        "Subject matter": "physics"
+    },
+    {
+        "Cupboard": 45,
+        "Room": "Science2",
+        "Contents": "Cloud Chamber",
+        "Indhold": "Tågekamre",
+        "Subject matter": "physics"
+    }
 ];
 
 const savedPositions = {
